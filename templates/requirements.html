@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   <style>
+    ul {
+        list-style: disc;
+        margin-left: 20px;
+    } 
+  </style>
+    
+</head>
+<body>
+    <div id="formattedAns">
+    {{ ans }}
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var ans = "{{ ans }}";
+            var formattedAns = document.getElementById("formattedAns");
+            var ansParts = ans.split("."); 
+    
+            if (ansParts.length > 0) {
+                var ul = document.createElement("ul"); 
+    
+                ansParts.forEach(function (part) {
+                    var li = document.createElement("li"); 
+                    li.textContent = part.trim(); 
+                    ul.appendChild(li); 
+                });
+    
+                formattedAns.innerHTML = ""; 
+                formattedAns.appendChild(ul); 
+            }
+        });
+    </script>
+</body>
+</html>
