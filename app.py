@@ -37,11 +37,12 @@ db1 = mysql.connector.connect(
     password="new_password",
     database="hirem"
 )
+from models import employee_details 
 db.init_app(app)
 
 
 def process(input_txt):
-    string1 = "give the technical skills required for below project (give bulletin points)"
+    string1 = "give the technical skills required for below project in five lines"
     string2 = input_txt + string1
     url = "https://open-ai21.p.rapidapi.com/conversationgpt35"
     payload = {
@@ -70,6 +71,29 @@ def man():
         output1    = process(input_txt)
         return render_template('requirements.html',ans=output1)
     return render_template('home.html')
-
+@app.route('/input_form',methods=['POST'])
+def input_form():
+    if request.method == 'POST':
+        skill_1 = request.form['skill_1']
+        skill_2 = request.form['skill_2']
+        skill_3 = request.form['skill_3']
+        skill_4 = request.form['skill_4']
+        skill_5 = request.form['skill_5']
+        skills_from_form = [skill_1, skill_2, skill_3, skill_4, skill_5]
+        matched_employees = employee_details.query.filter(
+            (employee_details.e_skill_set_1.in_(skills_from_form)) |
+            (employee_details.e_skill_set_2.in_(skills_from_form)) |
+            (employee_details.e_skill_set_3.in_(skills_from_form)) |
+            (employee_details.e_skill_set_4.in_(skills_from_form)) |
+            (employee_details.e_skill_set_5.in_(skills_from_form))
+        ).all()
+        employees_with_at_least_2_skills = [
+            employee for employee in matched_employees
+            if sum(skill in skills_from_form for skill in [
+                employee.e_skill_set_1, employee.e_skill_set_2,
+                employee.e_skill_set_3, employee.e_skill_set_4, employee.e_skill_set_5
+            ]) >= 2
+        ]
+        return render_template('employee_list.html', employees=employees_with_at_least_2_skills)
 if __name__ == "__main__":
     app.run(debug=True)

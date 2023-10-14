@@ -16,25 +16,32 @@
     <div id="formattedAns">
     {{ ans }}
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var ans = "{{ ans }}";
-            var formattedAns = document.getElementById("formattedAns");
-            var ansParts = ans.split("."); 
+    <div id="form">
+        <form method="POST" enctype="multipart/form-data" action="http://127.0.0.1:5000/input_form">
+            <label for="skill_1">Skill 1:</label>
+            <input type="text" id="skill_1" name="skill_1"><br><br>
     
-            if (ansParts.length > 0) {
-                var ul = document.createElement("ul"); 
+            <label for="skill_2">Skill 2:</label>
+            <input type="text" id="skill_2" name="skill_2"><br><br>
     
-                ansParts.forEach(function (part) {
-                    var li = document.createElement("li"); 
-                    li.textContent = part.trim(); 
-                    ul.appendChild(li); 
-                });
+            <label for="skill_3">Skill 3:</label>
+            <input type="text" id="skill_3" name="skill_3"><br><br>
     
-                formattedAns.innerHTML = ""; 
-                formattedAns.appendChild(ul); 
-            }
-        });
-    </script>
+            <label for="skill_4">Skill 4:</label>
+            <input type="text" id="skill_4" name="skill_4"><br><br>
+    
+            <label for="skill_5">Skill 5:</label>
+            <input type="text" id="skill_5" name="skill_5"><br><br>
+    
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <div id="test">
+        {{ skill_1 }}
+        {{ skill_2 }}
+        {{ skill_3 }}
+        {{ skill_4 }}
+        {{ skill_5 }}
+    </div>
 </body>
 </html>

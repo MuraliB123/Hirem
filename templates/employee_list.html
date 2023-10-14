@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee List</title>
+</head>
+<body>
+    <h2>Employees with at Least 2 Matched Skills</h2>
+    <ul>
+        {% for employee in employees %}
+            <li>
+                <strong>Name:</strong> {{ employee.e_name }}<br>
+                <strong>Experience:</strong> {{ employee.e_exp }} years<br>
+                <strong>Gender:</strong> {{ employee.e_gender }}<br>
+                <strong>Matched Skills:</strong>
+                <ul>
+                    <li>{{ employee.e_skill_set_1 }}</li>
+                    <li>{{ employee.e_skill_set_2 }}</li>
+                    <li>{{ employee.e_skill_set_3 }}</li>
+                    <li>{{ employee.e_skill_set_4 }}</li>
+                    <li>{{ employee.e_skill_set_5 }}</li>
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
