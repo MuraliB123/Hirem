@@ -95,5 +95,53 @@ def input_form():
             ]) >= 2
         ]
         return render_template('employee_list.html', employees=employees_with_at_least_2_skills)
+    
+criteria_weights = {
+    'hours_worked_weight': 0.3,
+    'communication_skills_weight': 0.3,
+    'time_management_skills_weight': 0.4,
+}
+def calculate_credit_score(employee):
+    hours_worked_weight = criteria_weights['hours_worked_weight']
+    communication_skills_weight = criteria_weights['communication_skills_weight']
+    time_management_skills_weight = criteria_weights['time_management_skills_weight']
+    hours_worked = employee.hours_worked
+    communication_skills = employee.communication_skills
+    time_management_skills = employee.time_management_skills
+    credit_score = (
+        hours_worked * hours_worked_weight +
+        communication_skills * communication_skills_weight +
+        time_management_skills * time_management_skills_weight
+    )
+    return credit_score
+
+@app.route('/employees_below_threshold')
+def employees_below_threshold():
+    # Fetch all employees from the database
+    employees = employee_details.query.all()
+
+    # Define the threshold
+    threshold = 5  # You can adjust this threshold as needed
+
+    # Calculate the credit scores and filter employees below the threshold
+    low_credit_score_employees = []
+    for employee in employees:
+        credit_score = calculate_credit_score(employee)
+        if credit_score < threshold:
+            low_credit_score_employees.append((employee, credit_score))
+
+    return render_template('low_credit_score_employees.html', employees=low_credit_score_employees)
+
+
+
+
+if __name__ == '__main__':
+    app.run()
+
+
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)

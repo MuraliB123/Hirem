@@ -12,3 +12,4 @@ class employee_details(db.Model):
     e_skill_set_3 = db.Column(db.String(30),nullable=False)
     e_skill_set_4   = db.Column(db.String(30),nullable=False)
     e_skill_set_5 = db.Column(db.String(30),nullable=False,unique=True)
+class employee_score(db.Model)
