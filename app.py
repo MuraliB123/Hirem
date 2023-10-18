@@ -40,7 +40,7 @@ db1 = mysql.connector.connect(
 from models import employee_details 
 employees_with_at_least_2_skills = []
 criteria_weights = {
-    'hours_worked_weight': 0.3,
+    'exp_weight': 0.3,
     'communication_skills_weight': 0.3,
     'time_management_skills_weight': 0.4,
 }
@@ -103,14 +103,14 @@ def input_form():
     
 
 def calculate_credit_score(employee):
-    hours_worked_weight = criteria_weights['hours_worked_weight']
+    exp_worked_weight = criteria_weights['exp_weight']
     communication_skills_weight = criteria_weights['communication_skills_weight']
     time_management_skills_weight = criteria_weights['time_management_skills_weight']
-    hours_worked = employee.hours_worked
+    exp_years = employee.exp_years                                                                    
     communication_skills = employee.communication_skills
     time_management_skills = employee.time_management_skills
     credit_score = (
-        hours_worked * hours_worked_weight +
+        exp_years * exp_worked_weight +
         communication_skills * communication_skills_weight +
         time_management_skills * time_management_skills_weight
     )
@@ -119,8 +119,12 @@ def calculate_credit_score(employee):
 @app.route('/second_level',methods=['POST'])
 def employees_below_threshold():
     threshold = 2  
+    p_th      = 4
     low_credit_score_employees = []
     for employee in employees_with_at_least_2_skills:
+        no_of_projects = employee.no_of_projects
+        if no_of_projects > p_th:
+            continue
         credit_score = calculate_credit_score(employee)
         if credit_score > threshold:
             low_credit_score_employees.append(employee)
