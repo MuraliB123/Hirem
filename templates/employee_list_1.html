@@ -4,7 +4,7 @@
     <title>Employee List</title>
 </head>
 <body>
-    <h2>Employees with  Matched Skills</h2>
+    <h2>Employees available for new task</h2>
     <ul>
         {% for employee in employees %}
             <li>
@@ -22,10 +22,5 @@
             </li>
         {% endfor %}
     </ul>
-    <div>
-        <form method="POST" enctype="multipart/form-data" action="http://127.0.0.1:5000/second_level">
-            <input type="submit" value="submit">
-        </form>
-    </div>
 </body>
 </html>

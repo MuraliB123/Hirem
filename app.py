@@ -38,11 +38,15 @@ db1 = mysql.connector.connect(
     database="hirem"
 )
 from models import employee_details 
+employees_with_at_least_2_skills = []
+criteria_weights = {
+    'hours_worked_weight': 0.3,
+    'communication_skills_weight': 0.3,
+    'time_management_skills_weight': 0.4,
+}
 db.init_app(app)
-
-
 def process(input_txt):
-    string1 = "give the technical skills required for below project in five lines"
+    string1 = "give only  the names of the technical skills required for below project(keep it short)"
     string2 = input_txt + string1
     url = "https://open-ai21.p.rapidapi.com/conversationgpt35"
     payload = {
@@ -87,6 +91,7 @@ def input_form():
             (employee_details.e_skill_set_4.in_(skills_from_form)) |
             (employee_details.e_skill_set_5.in_(skills_from_form))
         ).all()
+        global employees_with_at_least_2_skills 
         employees_with_at_least_2_skills = [
             employee for employee in matched_employees
             if sum(skill in skills_from_form for skill in [
@@ -96,11 +101,7 @@ def input_form():
         ]
         return render_template('employee_list.html', employees=employees_with_at_least_2_skills)
     
-criteria_weights = {
-    'hours_worked_weight': 0.3,
-    'communication_skills_weight': 0.3,
-    'time_management_skills_weight': 0.4,
-}
+
 def calculate_credit_score(employee):
     hours_worked_weight = criteria_weights['hours_worked_weight']
     communication_skills_weight = criteria_weights['communication_skills_weight']
@@ -115,32 +116,15 @@ def calculate_credit_score(employee):
     )
     return credit_score
 
-@app.route('/employees_below_threshold')
+@app.route('/second_level',methods=['POST'])
 def employees_below_threshold():
-    # Fetch all employees from the database
-    employees = employee_details.query.all()
-
-    # Define the threshold
-    threshold = 5  # You can adjust this threshold as needed
-
-    # Calculate the credit scores and filter employees below the threshold
+    threshold = 2  
     low_credit_score_employees = []
-    for employee in employees:
+    for employee in employees_with_at_least_2_skills:
         credit_score = calculate_credit_score(employee)
-        if credit_score < threshold:
-            low_credit_score_employees.append((employee, credit_score))
-
-    return render_template('low_credit_score_employees.html', employees=low_credit_score_employees)
-
-
-
-
-if __name__ == '__main__':
-    app.run()
-
-
-
-
+        if credit_score > threshold:
+            low_credit_score_employees.append(employee)
+    return render_template('employee_list_1.html', employees=low_credit_score_employees)
 
 
 if __name__ == "__main__":
