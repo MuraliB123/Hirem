@@ -1,0 +1,7 @@
+the frontent should include 3 main pages: one for employee, one for user, one for admin. 
+The page used by admin should have the input text box for the project desc.
+the output should also be displayed right beneath it. then there should be a button for existing workforce utilisation which will call both modules 1 and 2 and then 
+give output as a report in the same page.
+There is one last button to generate a final output based on module 3 and the number of people who have applied for the job, then getting the same diplayed on the page
+while for a new candidate who wishes to apply, the page is basically a form to get details and submit them to the backend db.
+the one for employee is simply to show that the particular employee has been assigned to which project and his/her resp credit score.
