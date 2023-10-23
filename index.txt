@@ -1,4 +1,4 @@
-the frontent should include 3 main pages: one for employee, one for user, one for admin. 
+the frontend should include 3 main pages: one for employee, one for user, one for admin. 
 The page used by admin should have the input text box for the project desc.
 the output should also be displayed right beneath it. then there should be a button for existing workforce utilisation which will call both modules 1 and 2 and then 
 give output as a report in the same page.
