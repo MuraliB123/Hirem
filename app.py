@@ -5,6 +5,7 @@ import pickle
 app = Flask(__name__)
 import requests
 from flask import jsonify
+import pandas as pd   
 import pdfplumber
 import re
 import os
@@ -100,7 +101,6 @@ def input_form():
             ]) >= 2
         ]
         return render_template('employee_list.html', employees=employees_with_at_least_2_skills)
-    
 
 def calculate_credit_score(employee):
     exp_worked_weight = criteria_weights['exp_weight']
@@ -130,6 +130,40 @@ def employees_below_threshold():
             low_credit_score_employees.append(employee)
     return render_template('employee_list_1.html', employees=low_credit_score_employees)
 
+with open('linear_regression_model.pkl', 'rb') as file:
+    model = pickle.load(file)
 
+@app.route('/prediction', methods=['POST', 'GET'])
+def prediction():
+    if request.method == 'POST':
+        # Get input values from the form
+        Stock_Price = float(request.form['Stock_Price'])
+        Profit = float(request.form['Profit'])
+        Revenue = float(request.form['Revenue'])
+        Budget_Allocation = float(request.form['Budget_Allocation'])
+        Market_Demand = request.form['Market_Demand']
+        Sales_Forecast = request.form['Sales_Forecast']
+        Strategic_Initiatives = request.form['Strategic_Initiatives']
+        Employee_Attrition = request.form['Employee_Attrition']
+        Workload = request.form['Workload']
+
+        # Preprocess categorical values for prediction
+        input_data = pd.DataFrame({
+            'Stock_Price': [Stock_Price],
+            'Profit': [Profit],
+            'Revenue': [Revenue],
+            'Budget_Allocation': [Budget_Allocation],
+            'Market_Demand': [Market_Demand],
+            'Sales_Forecast': [Sales_Forecast],
+            'Strategic_Initiatives': [Strategic_Initiatives],
+            'Employee_Attrition': [Employee_Attrition],
+            'Workload': [Workload]
+        })
+
+        prediction = model.predict(input_data)
+
+        return render_template('prediction.html', prediction=prediction[0])
+    
+    return render_template('prediction.html')
 if __name__ == "__main__":
     app.run(debug=True)

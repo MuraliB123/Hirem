@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Regression Model Input</title>
+</head>
+<body>
+    <h2>Regression Model Input Form</h2>
+    <form action="/prediction" method="post">
+        <label for="Stock_Price">Stock Price:</label><br>
+        <input type="text" id="Stock_Price" name="Stock_Price"><br>
+        
+        <label for="Profit">Profit:</label><br>
+        <input type="text" id="Profit" name="Profit"><br>
+        
+        <label for="Revenue">Revenue:</label><br>
+        <input type="text" id="Revenue" name="Revenue"><br>
+        
+        <label for="Budget_Allocation">Budget Allocation:</label><br>
+        <input type="text" id="Budget_Allocation" name="Budget_Allocation"><br>
+        
+        <label for="Market_Demand">Market Demand:</label><br>
+        <select id="Market_Demand" name="Market_Demand">
+        
+            <option value="Moderate">Moderate</option>
+            <option value="High">High</option>
+        </select><br>
+        
+        <label for="Sales_Forecast">Sales Forecast:</label><br>
+        <select id="Sales_Forecast" name="Sales_Forecast">
+            <option value="Stable">Stable</option>
+            <option value="Strong">Strong</option>
+        </select><br>
+        
+        <label for="Strategic_Initiatives">Strategic Initiatives:</label><br>
+        <select id="Strategic_Initiatives" name="Strategic_Initiatives">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select><br>
+        
+        <label for="Employee_Attrition">Employee Attrition:</label><br>
+        <select id="Employee_Attrition" name="Employee_Attrition">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select><br>
+        
+        <label for="Workload">Workload:</label><br>
+        <select id="Workload" name="Workload">
+           
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+    <div>
+        {{ prediction }}
+    </div>
+</body>
+</html>
