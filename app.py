@@ -49,27 +49,36 @@ db.init_app(app)
 def process(input_txt):
     string1 = "give only  the names of the technical skills required for below project(keep it short)"
     string2 = input_txt + string1
-    url = "https://open-ai21.p.rapidapi.com/conversationgpt35"
-    payload = {
-	"messages": [
+    url = "https://open-ai21.p.rapidapi.com/conversationpalm2"
+    payload = { "messages": [
 		{
 			"role": "user",
 			"content": string2
 		}
-	],
-	"web_access": False,
-	"stream": False
-   }
+	] }
     headers = {
 	"content-type": "application/json",
-	"X-RapidAPI-Key": "0f9ac642acmsh1d46da5f8d12b62p146304jsnc1406de9eae2",
+	"X-RapidAPI-Key": "76f061af65msh092676706989542p17581ajsn3410cc5e8d76",
 	"X-RapidAPI-Host": "open-ai21.p.rapidapi.com"
-   }
+    }
     response = requests.post(url, json=payload, headers=headers)
-    res = response.json()
-    return res.get("BOT")
+    return response.json().get('BOT')
 
-@app.route('/',methods=['GET', 'POST'])
+@app.route('/',methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        name = request.form['uname']
+        upass = request.form['upass']
+        cursor = db1.cursor()
+        query = "SELECT * FROM login_cred WHERE uname = %s AND upass = %s"
+        cursor.execute(query, (name, upass))
+        user = cursor.fetchone()
+        if user:
+            return render_template('home.html')
+        else:
+            return render_template('login.html')
+    return render_template('login.html')
+@app.route('/input',methods=['GET', 'POST'])
 def man():
     if request.method == 'POST':
         input_txt = request.form['description']
@@ -162,7 +171,7 @@ def prediction():
 
         prediction = model.predict(input_data)
 
-        return render_template('prediction.html', prediction=prediction[0])
+        return render_template('prediction.html', prediction=int(prediction[0]))
     
     return render_template('prediction.html')
 if __name__ == "__main__":
