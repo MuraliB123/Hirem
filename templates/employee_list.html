@@ -104,9 +104,9 @@ h2 {
 }
 
 .center-text {
-    margin-left: 500px;
+    margin-left: 520px;
     text-align: center; /* Center the text within the h2 */
-    color: #5b5b5b;
+    color: #000;
 }
 form {
     text-align: right; /* Align the form to the right */
@@ -115,9 +115,10 @@ form {
     margin-right: 10px; /* Adjust the margin to move the submit button to the left */
 }
 .emp-list{
-    background-color: aqua;
-    background-image: linear-gradient(45deg,aqua,#1442b5);
-    color: #bf9000;
+    background-color: #333;
+    background-image: linear-gradient(60deg,rgb(49, 40, 40),#373a42);
+    color: #e0ce27;
+    margin-right: 25px;
 }
 
     </style>
@@ -130,7 +131,7 @@ form {
         </form>
     </div>
     <ul>
-        {% for employee in employees %}
+        <strong> {% for employee in employees %}</strong> 
         <div class="emp-list">
             <li>
                 <strong>Name:</strong> {{ employee.e_name }}<br>
@@ -146,7 +147,7 @@ form {
                 </ul>
             </li>
         </div>
-        {% endfor %}
+        <strong>{% endfor %}</strong>
     </ul>
    
 </body>
